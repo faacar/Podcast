@@ -23,23 +23,26 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
         setupSearchBar()
         setupTableView()
         
-        
     }
+
+    
     
     //MARK: -Setup Work
     
     fileprivate func setupSearchBar() {
         navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.delegate = self
     }
     
     fileprivate func setupTableView() {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        let nib = UINib(nibName: "PodcastCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: cellId)
 
     }
 
-    
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         //print(searchText)
         APIService.shared.fetchPodcasts(searchText: searchText) { (podcasts) in
@@ -62,12 +65,22 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId,for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId,for: indexPath) as! PodcastCell
+        
         let podcast = self.podcasts[indexPath.row]
-        cell.textLabel?.text = "\(podcast.trackName ?? "")\n\(podcast.artistName ?? "")"
-        cell.textLabel?.numberOfLines = -1 // to have infinite number of lines
-        cell.imageView?.image = #imageLiteral(resourceName: "appicon")
+        cell.podcast = podcast
+        
+        
+//        let podcast = self.podcasts[indexPath.row]
+//        cell.textLabel?.text = "\(podcast.trackName ?? "")\n\(podcast.artistName ?? "")"
+//        cell.textLabel?.numberOfLines = -1 // to have infinite number of lines
+//        cell.imageView?.image = #imageLiteral(resourceName: "appicon")
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 132
+    }
+    
     
 }
