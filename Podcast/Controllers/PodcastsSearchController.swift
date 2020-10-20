@@ -11,17 +11,11 @@ import Alamofire
 
 class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
     
-    let podcasts = [
-        Podcast(name: "Test", artistName: "Ahmet"),
-        Podcast(name: "Test2", artistName: "Ali"),
-        Podcast(name: "Test2", artistName: "Ali"),
-
-    ]
+    var podcasts = [Podcast]()
     let cellId = "cellId"
     //implement a UISearchController
     
    let searchController = UISearchController(searchResultsController: nil)
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,21 +37,16 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
 
     }
+
     
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         //print(searchText)
-        
-        //TODO: later implement Alamofire to search Itunes API
-        let url = "https://itunes.apple.com/search?term=\(searchText)"
-        AF.request(url).response { response in
-            if let err = response.error {
-                print("Failed to contact yahoo!", err)
-                return
-            }
-            guard let data = response.data else { return }
-            let dummyString = String(data: data, encoding: .utf8)
-            print(dummyString ?? "nil coalecing")
+        APIService.shared.fetchPodcasts(searchText: searchText) { (podcasts) in
+            self.podcasts = podcasts
+            self.tableView.reloadData()
+            print("Finished searching for podcasts...")
+
         }
         
     }
@@ -75,7 +64,7 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId,for: indexPath)
         let podcast = self.podcasts[indexPath.row]
-        cell.textLabel?.text = "\(podcast.name)\n\(podcast.artistName)"
+        cell.textLabel?.text = "\(podcast.trackName ?? "")\n\(podcast.artistName ?? "")"
         cell.textLabel?.numberOfLines = -1 // to have infinite number of lines
         cell.imageView?.image = #imageLiteral(resourceName: "appicon")
         return cell
