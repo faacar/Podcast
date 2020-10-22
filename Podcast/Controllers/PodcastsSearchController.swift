@@ -25,8 +25,6 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
         
     }
 
-    
-    
     //MARK: -Setup Work
     
     fileprivate func setupSearchBar() {
@@ -40,6 +38,7 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         let nib = UINib(nibName: "PodcastCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: cellId)
+        tableView.tableFooterView = UIView()
 
     }
 
@@ -56,6 +55,28 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
     
     //MARK: -UITableView
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let episodesController = EpisodesController()
+        episodesController.podcast = self.podcasts[indexPath.row]
+        navigationController?.pushViewController(episodesController, animated: true)
+        print(indexPath.row)
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "Please enter a Search Tearm"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        label.textColor = UIColor(red: 0.501960813999176, green: 0.0, blue: 0.501960813999176, alpha: 1.0)
+        //label.textColor = UIColor(red: 128, green: 0, blue: 128, alpha: 1.0)
+        return label
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return self.podcasts.count > 0 ? 0 : 250
+    }
+    
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -70,11 +91,6 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
         let podcast = self.podcasts[indexPath.row]
         cell.podcast = podcast
         
-        
-//        let podcast = self.podcasts[indexPath.row]
-//        cell.textLabel?.text = "\(podcast.trackName ?? "")\n\(podcast.artistName ?? "")"
-//        cell.textLabel?.numberOfLines = -1 // to have infinite number of lines
-//        cell.imageView?.image = #imageLiteral(resourceName: "appicon")
         return cell
     }
     
