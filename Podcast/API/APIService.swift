@@ -19,10 +19,7 @@ class APIService {
     func fetchPodcasts(searchText: String, completionHandler: @escaping ([Podcast]) -> () ) {
         print("Searching for podcasts...")
         
-        
-        //TODO: later implement Alamofire to search Itunes API
-        //let url = "https://itunes.apple.com/search?term=\(searchText)"
-        let parameters = ["term": searchText, "media": "podcast"] // listelenen icerigi filtreliyor
+        let parameters = ["term": searchText, "media": "podcast"]
         
         AF.request(baseiTunesSearchURL, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseData { (response) in
                         if let err = response.error {

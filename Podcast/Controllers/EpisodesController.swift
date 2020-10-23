@@ -7,30 +7,56 @@
 //
 
 import UIKit
-
+import FeedKit
 
 class EpisodesController: UITableViewController {
     
     var podcast: Podcast? {
         didSet {
             navigationItem.title = podcast?.trackName
+            fetchEpisodes()
         }
     }
     
-    fileprivate let cellId = "cellId"
-    
-    struct Episode {
-        let title: String
+    fileprivate func fetchEpisodes() {
+        print("Looking for episodes at feed url", podcast?.feedUrl ?? "")
+        //guard let feedUrl = podcast?.feedUrl else { return }
+        guard let feedURL = URL(string: podcast?.feedUrl ?? "") else { return }
+        let parser = FeedParser(URL: feedURL)
+        
+        parser.parseAsync(queue: DispatchQueue.global(qos: .userInitiated)) { (result) in
+            
+            switch result {
+            case .success(let feed):
+                switch feed {
+                case let .rss(feed):
+                    
+                    var episodes = [Episode]() // blank Episode array temporary
+                    
+                    feed.items?.forEach({ (feedItem) in
+                        let episode = Episode(feedItem: feedItem)
+                        episodes.append(episode)
+                    })
+                    
+                    self.episodes = episodes
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                    break
+                default:
+                    print("Error from parsing rss...")
+                }
+                
+            case .failure(let error):
+                print("Failed to parse feed:", error)
+            }
+        }
     }
-    
-    var episodes = [
-        Episode(title: "first episodes"),
-        Episode(title: "second episodes"),
-        Episode(title: "third episodes")
-    ]
-    
-    
-    
+
+    fileprivate let cellId = "cellId"
+
+    var episodes = [Episode]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -39,13 +65,11 @@ class EpisodesController: UITableViewController {
     //MARK: -Setup Work
     
     fileprivate func setupTableView() {
-        navigationItem.backBarButtonItem?.tintColor = UIColor(red: 0.501960813999176, green: 0.0, blue: 0.501960813999176, alpha: 1.0)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        let nib = UINib(nibName: "EpisodeCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: cellId)
         tableView.tableFooterView = UIView()
     }
-    
-    
-    
+
     //MARK: -UITableView
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -57,16 +81,18 @@ class EpisodesController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! EpisodeCell
         let episode = episodes[indexPath.row]
-
-        cell.textLabel?.text = episode.title
+        cell.episode = episode
+        
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 132
     }
     
     
     
-    
-    
-    
+
 }

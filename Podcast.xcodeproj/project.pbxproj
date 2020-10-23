@@ -17,6 +17,9 @@
 		72010495253C0AC300D0F3F4 /* Podcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72010494253C0AC300D0F3F4 /* Podcast.swift */; };
 		7248C2A1253F84050063B0C4 /* PodcastCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7248C2A0253F84050063B0C4 /* PodcastCell.xib */; };
 		7248C2A3253F864F0063B0C4 /* PodcastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7248C2A2253F864F0063B0C4 /* PodcastCell.swift */; };
+		72A67BA42542F356007E9FF5 /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A67BA32542F356007E9FF5 /* Episode.swift */; };
+		72A67BA72542F712007E9FF5 /* EpisodeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A67BA52542F712007E9FF5 /* EpisodeCell.swift */; };
+		72A67BA82542F712007E9FF5 /* EpisodeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 72A67BA62542F712007E9FF5 /* EpisodeCell.xib */; };
 		72AE62B32541813700421131 /* UIColor+hexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AE62B22541813700421131 /* UIColor+hexColor.swift */; };
 		72B2B4AA2541871000F4AFC2 /* EpisodesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B2B4A92541871000F4AFC2 /* EpisodesController.swift */; };
 		72B83503253F174200351DA6 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B83502253F174200351DA6 /* APIService.swift */; };
@@ -38,6 +41,9 @@
 		72010494253C0AC300D0F3F4 /* Podcast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Podcast.swift; sourceTree = "<group>"; };
 		7248C2A0253F84050063B0C4 /* PodcastCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PodcastCell.xib; sourceTree = "<group>"; };
 		7248C2A2253F864F0063B0C4 /* PodcastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastCell.swift; sourceTree = "<group>"; };
+		72A67BA32542F356007E9FF5 /* Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Episode.swift; sourceTree = "<group>"; };
+		72A67BA52542F712007E9FF5 /* EpisodeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeCell.swift; sourceTree = "<group>"; };
+		72A67BA62542F712007E9FF5 /* EpisodeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EpisodeCell.xib; sourceTree = "<group>"; };
 		72AE62B22541813700421131 /* UIColor+hexColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hexColor.swift"; sourceTree = "<group>"; };
 		72B2B4A92541871000F4AFC2 /* EpisodesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesController.swift; sourceTree = "<group>"; };
 		72B83502253F174200351DA6 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
@@ -96,11 +102,11 @@
 			children = (
 				72B83501253F172400351DA6 /* API */,
 				72010493253C0AAE00D0F3F4 /* Models */,
+				7248C29F253F83D60063B0C4 /* Views */,
 				72010490253C07EC00D0F3F4 /* Controllers */,
 				7201047A253AF76A00D0F3F4 /* AppDelegate.swift */,
 				7201047E253AF76A00D0F3F4 /* ViewController.swift */,
 				7201048E253AF7BB00D0F3F4 /* MainTabBarController.swift */,
-				7248C29F253F83D60063B0C4 /* Views */,
 				72AE62B12541808C00421131 /* Extensions */,
 				72010480253AF76A00D0F3F4 /* Main.storyboard */,
 				72010483253AF76B00D0F3F4 /* Assets.xcassets */,
@@ -123,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				72010494253C0AC300D0F3F4 /* Podcast.swift */,
+				72A67BA32542F356007E9FF5 /* Episode.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -132,6 +139,8 @@
 			children = (
 				7248C2A0253F84050063B0C4 /* PodcastCell.xib */,
 				7248C2A2253F864F0063B0C4 /* PodcastCell.swift */,
+				72A67BA52542F712007E9FF5 /* EpisodeCell.swift */,
+				72A67BA62542F712007E9FF5 /* EpisodeCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -214,6 +223,7 @@
 			files = (
 				72010487253AF76B00D0F3F4 /* LaunchScreen.storyboard in Resources */,
 				72010484253AF76B00D0F3F4 /* Assets.xcassets in Resources */,
+				72A67BA82542F712007E9FF5 /* EpisodeCell.xib in Resources */,
 				7248C2A1253F84050063B0C4 /* PodcastCell.xib in Resources */,
 				72010482253AF76A00D0F3F4 /* Main.storyboard in Resources */,
 			);
@@ -271,6 +281,8 @@
 				72010492253C081F00D0F3F4 /* PodcastsSearchController.swift in Sources */,
 				7201047F253AF76A00D0F3F4 /* ViewController.swift in Sources */,
 				7201047B253AF76A00D0F3F4 /* AppDelegate.swift in Sources */,
+				72A67BA72542F712007E9FF5 /* EpisodeCell.swift in Sources */,
+				72A67BA42542F356007E9FF5 /* Episode.swift in Sources */,
 				7201048F253AF7BB00D0F3F4 /* MainTabBarController.swift in Sources */,
 				72B83503253F174200351DA6 /* APIService.swift in Sources */,
 				72AE62B32541813700421131 /* UIColor+hexColor.swift in Sources */,
