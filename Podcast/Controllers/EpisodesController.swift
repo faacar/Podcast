@@ -20,35 +20,11 @@ class EpisodesController: UITableViewController {
     
     fileprivate func fetchEpisodes() {
         print("Looking for episodes at feed url", podcast?.feedUrl ?? "")
-        //guard let feedUrl = podcast?.feedUrl else { return }
-        guard let feedURL = URL(string: podcast?.feedUrl ?? "") else { return }
-        let parser = FeedParser(URL: feedURL)
-        
-        parser.parseAsync(queue: DispatchQueue.global(qos: .userInitiated)) { (result) in
-            
-            switch result {
-            case .success(let feed):
-                switch feed {
-                case let .rss(feed):
-                    
-                    var episodes = [Episode]() // blank Episode array temporary
-                    
-                    feed.items?.forEach({ (feedItem) in
-                        let episode = Episode(feedItem: feedItem)
-                        episodes.append(episode)
-                    })
-                    
-                    self.episodes = episodes
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
-                    break
-                default:
-                    print("Error from parsing rss...")
-                }
-                
-            case .failure(let error):
-                print("Failed to parse feed:", error)
+        guard let feedUrl = podcast?.feedUrl else { return }
+        APIService.shared.fetchEpisodes(feedURL: feedUrl) { (episodes) in
+            self.episodes = episodes
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
         }
     }

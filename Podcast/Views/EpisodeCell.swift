@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+import SDWebImage
+ 
 class EpisodeCell: UITableViewCell {
 
     @IBOutlet weak var episodeImageView: UIImageView!
@@ -23,6 +24,10 @@ class EpisodeCell: UITableViewCell {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd MMM, yyyy"
             pubDateLabel.text = dateFormatter.string(from: episode.pubDate)
+
+            let url = URL(string: episode.imageURL ?? "")
+            episodeImageView.sd_setImage(with: url, completed: nil)
+            
         }
 
     }
