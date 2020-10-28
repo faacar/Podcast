@@ -23,7 +23,7 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
         setupSearchBar()
         setupTableView()
         
-        searchBar(searchController.searchBar, textDidChange: "npr")
+        //searchBar(searchController.searchBar, textDidChange: "npr")
         
     }
 
@@ -44,14 +44,16 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
 
     }
 
+    var timer: Timer?
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        //print(searchText)
-        APIService.shared.fetchPodcasts(searchText: searchText) { (podcasts) in
-            self.podcasts = podcasts
-            self.tableView.reloadData()
-            print("Finished searching for podcasts...")
-
-        }
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.7, repeats: false, block: { (timer) in
+            APIService.shared.fetchPodcasts(searchText: searchText) { (podcasts) in
+                self.podcasts = podcasts
+                self.tableView.reloadData()
+                print("Finished searching for podcasts...")
+            }
+        })
         
     }
     

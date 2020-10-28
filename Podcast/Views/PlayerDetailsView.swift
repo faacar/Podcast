@@ -53,15 +53,15 @@ class PlayerDetailsView: UIView {
     
     fileprivate func observePlayerCurrentTime() {
         let interval = CMTime(value: 1, timescale: 2)
-        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { (time) in
+        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] (time) in
 
-            self.currentTimeLabel.text = time.toDisplayString()
+            self?.currentTimeLabel.text = time.toDisplayString()
 //            let durationTime = self.player.currentItem?.duration
 //            self.durationLabel.text = durationTime?.toDisplayString()
             
             //alternative way to show duration time
-            self.durationLabel.text = self.episode.timeDuration.toDisplayString()
-            self.updateCurrentTimeSlider()
+            self?.durationLabel.text = self?.episode.timeDuration.toDisplayString()
+            self?.updateCurrentTimeSlider()
         }
     }
     
@@ -79,9 +79,9 @@ class PlayerDetailsView: UIView {
         
         let time = CMTime(value: 1, timescale: 3)
         let times = [NSValue(time: time)]
-        player.addBoundaryTimeObserver(forTimes: times, queue: .main) {
+        player.addBoundaryTimeObserver(forTimes: times, queue: .main) { [weak self] in
             print("Episode started playing")
-            self.enlargeEpisodeImageView()
+            self?.enlargeEpisodeImageView()
         }
     }
     fileprivate let shrunkenTransform = CGAffineTransform(scaleX: 0.7, y: 0.7)

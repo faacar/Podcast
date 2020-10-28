@@ -47,6 +47,18 @@ class EpisodesController: UITableViewController {
     }
 
     //MARK: -UITableView
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let activityIndicatorView = UIActivityIndicatorView(style: .large)
+        activityIndicatorView.color = .darkGray
+        activityIndicatorView.startAnimating()
+        return activityIndicatorView
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return episodes.isEmpty ? 200 : 0
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -78,9 +90,6 @@ class EpisodesController: UITableViewController {
         playerDetailsView.episode = episode
         playerDetailsView.frame = self.view.frame
         window?.addSubview(playerDetailsView)
-    }
-    
-    
-    
+    } 
 
 }
