@@ -84,12 +84,11 @@ class EpisodesController: UITableViewController {
         let episode = self.episodes[indexPath.row]
         print("Trying to play episode",episode.title)
         
-        let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-        
-        let playerDetailsView = Bundle.main.loadNibNamed("PlayerDetailsView", owner: self, options: nil)?.first as! PlayerDetailsView
-        playerDetailsView.episode = episode
-        playerDetailsView.frame = self.view.frame
-        window?.addSubview(playerDetailsView)
-    } 
+        let vc = PlayerDetailsView.loadFromNib()
 
+        self.present(vc, animated: true) {
+            vc.episode = episode
+        }
+
+    }
 }

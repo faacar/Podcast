@@ -10,20 +10,38 @@ import UIKit
 import SDWebImage
 import AVKit
 
-class PlayerDetailsView: UIView {
-    
+class PlayerDetailsView: UIViewController {
+
     var episode: Episode! {
         didSet {
             episodeTitleLabel.text = episode.title
             episodeAuthorLabel.text = episode.author
-    
-            playEpisode()
             
+            playEpisode()
+            observePlayerCurrentTime()
+
             guard let url = URL(string: episode.imageURL ?? "") else { return }
             episodeImageView.sd_setImage(with: url, completed: nil)
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("viewdidload")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        observePlayerCurrentTime()
+        
+        let time = CMTime(value: 1, timescale: 3)
+        let times = [NSValue(time: time)]
+        player.addBoundaryTimeObserver(forTimes: times, queue: .main) { [weak self] in
+            print("Episode started playing")
+            self?.enlargeEpisodeImageView()
+        }
+    }
     
     fileprivate func playEpisode() {
         print("Trying to play episode at url:", episode.streamURL)
@@ -72,18 +90,6 @@ class PlayerDetailsView: UIView {
         self.currentTimeSlider.value = Float(percentage)
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        observePlayerCurrentTime()
-        
-        let time = CMTime(value: 1, timescale: 3)
-        let times = [NSValue(time: time)]
-        player.addBoundaryTimeObserver(forTimes: times, queue: .main) { [weak self] in
-            print("Episode started playing")
-            self?.enlargeEpisodeImageView()
-        }
-    }
     fileprivate let shrunkenTransform = CGAffineTransform(scaleX: 0.7, y: 0.7)
     
     //MARK: -IB Actions and Outlets
@@ -129,10 +135,10 @@ class PlayerDetailsView: UIView {
         }
     }
    
-    @IBAction func handleDismissButton(_ sender: Any) {
-        self.removeFromSuperview()
-        enlargeEpisodeImageView()
-    }
+//    @IBAction func handleDismissButton(_ sender: Any) {
+//        self.removeFromSuperview()
+//        enlargeEpisodeImageView()
+//    }
     
     @IBAction func playPauseButtonClicked(_ sender: Any) {
         print("Trying to play and pause clicked")
